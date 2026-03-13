@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoPage from "./TodoPage";
 import PlannerPage from "./PlannerPage";
 import "../styles/NotebookLayout.css";
 
 const MAX_PER_PAGE = 18;
 
-function SpiralBinding() {
-  const ringCount = 18;
+/* Detects if screen is mobile */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth <= 600);
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, []);
+  return isMobile;
+}
+
+/* Desktop: vertical spiral on left-right binding */
+function SpiralBindingDesktop() {
   return (
     <div className="spiral-binding">
       <div className="spine-bar" />
@@ -26,7 +37,7 @@ function SpiralBinding() {
             <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </linearGradient>
         </defs>
-        {Array.from({ length: ringCount }, (_, i) => {
+        {Array.from({ length: 18 }, (_, i) => {
           const y = 30 + i * 42;
           return (
             <g key={i}>
@@ -78,6 +89,105 @@ function SpiralBinding() {
   );
 }
 
+/* Mobile: horizontal spiral on top binding */
+function SpiralBindingMobile() {
+  const ringCount = 16;
+  return (
+    <div className="spiral-binding spiral-top">
+      <div className="spine-bar-top" />
+      <svg
+        className="spiral-svg-top"
+        viewBox="0 0 420 44"
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="ringGradH" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#7a6030" />
+            <stop offset="20%" stopColor="#c9a84c" />
+            <stop offset="42%" stopColor="#f0d888" />
+            <stop offset="58%" stopColor="#e0c060" />
+            <stop offset="80%" stopColor="#b89040" />
+            <stop offset="100%" stopColor="#6a5020" />
+          </linearGradient>
+          <linearGradient id="ringShineH" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+            <stop offset="50%" stopColor="rgba(255,255,255,0.55)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+        </defs>
+        {Array.from({ length: ringCount }, (_, i) => {
+          const x = 20 + i * 25;
+          return (
+            <g key={i}>
+              <ellipse
+                cx={x + 3}
+                cy="22"
+                rx="5"
+                ry="17"
+                fill="rgba(0,0,0,0.2)"
+              />
+              <ellipse
+                cx={x}
+                cy="22"
+                rx="7.5"
+                ry="17"
+                fill="none"
+                stroke="#5a4010"
+                strokeWidth="3.5"
+                strokeDasharray="28 26"
+                strokeDashoffset="26"
+              />
+              <ellipse
+                cx={x}
+                cy="22"
+                rx="7.5"
+                ry="17"
+                fill="none"
+                stroke="url(#ringGradH)"
+                strokeWidth="4"
+                strokeDasharray="28 26"
+                strokeDashoffset="0"
+              />
+              <ellipse
+                cx={x - 2.5}
+                cy="22"
+                rx="4"
+                ry="13"
+                fill="none"
+                stroke="url(#ringShineH)"
+                strokeWidth="1.5"
+                strokeDasharray="20 26"
+                strokeDashoffset="0"
+              />
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+/* Mobile tabs — switch between Todo and Planner */
+function MobileTabs({ activeTab, onSwitch }) {
+  return (
+    <div className="mobile-tabs">
+      <button
+        className={`mobile-tab ${activeTab === "todo" ? "active" : ""}`}
+        onClick={() => onSwitch("todo")}
+      >
+        📝 To-Do List
+      </button>
+      <button
+        className={`mobile-tab ${activeTab === "planner" ? "active" : ""}`}
+        onClick={() => onSwitch("planner")}
+      >
+        📅 Weekly Planner
+      </button>
+    </div>
+  );
+}
+
 function NotebookLayout({
   allTodos,
   onAddTodo,
@@ -89,6 +199,8 @@ function NotebookLayout({
   const [currentPage, setCurrentPage] = useState(0);
   const [flipping, setFlipping] = useState(false);
   const [flipDir, setFlipDir] = useState("next");
+  const [activeTab, setActiveTab] = useState("todo");
+  const isMobile = useIsMobile();
 
   const pages = [];
   for (
@@ -112,7 +224,7 @@ function NotebookLayout({
     setTimeout(() => {
       setCurrentPage((p) => (dir === "next" ? p + 1 : p - 1));
       setFlipping(false);
-    }, 600);
+    }, 550);
   };
 
   return (
@@ -129,7 +241,6 @@ function NotebookLayout({
           target="_blank"
           rel="noreferrer"
           className="github-avatar"
-          title="Visit GitHub"
         >
           <svg viewBox="0 0 24 24" className="github-icon">
             <path
@@ -149,7 +260,7 @@ function NotebookLayout({
         </a>
       </div>
 
-      {/* Page indicator */}
+      {/* Page nav */}
       <div className="page-indicator">
         {!hasPrevPage ? (
           <button className="page-nav-btn close-btn" onClick={onClose}>
@@ -184,38 +295,65 @@ function NotebookLayout({
         )}
       </div>
 
+      {/* Mobile tabs */}
+      {isMobile && <MobileTabs activeTab={activeTab} onSwitch={setActiveTab} />}
+
       {/* Notebook */}
       <div
         className={`notebook-flip-scene ${flipping ? `flipping-${flipDir}` : ""}`}
       >
         <div className="notebook-wrapper">
-          <div className="page-stack page-stack-left">
-            <div className="stack-layer s3" />
-            <div className="stack-layer s2" />
-            <div className="stack-layer s1" />
-          </div>
+          {/* Desktop page stacks */}
+          {!isMobile && (
+            <div className="page-stack page-stack-left">
+              <div className="stack-layer s3" />
+              <div className="stack-layer s2" />
+              <div className="stack-layer s1" />
+            </div>
+          )}
+
           <div className="notebook">
-            <div className="notebook-page left-page">
-              <TodoPage
-                todos={currentTodos}
-                pageIndex={currentPage}
-                onAddTodo={onAddTodo}
-                onToggleTodo={onToggleTodo}
-                onDeleteTodo={onDeleteTodo}
-                onEditTodo={onEditTodo}
-                isPageFull={isPageFull}
-              />
-            </div>
-            <SpiralBinding />
-            <div className="notebook-page right-page">
-              <PlannerPage pageIndex={currentPage} />
-            </div>
+            {/* Mobile top spiral */}
+            {isMobile && <SpiralBindingMobile />}
+
+            {/* Desktop left / Mobile todo tab */}
+            {(!isMobile || activeTab === "todo") && (
+              <div
+                className={`notebook-page left-page ${isMobile ? "mobile-single-page" : ""}`}
+              >
+                <TodoPage
+                  todos={currentTodos}
+                  pageIndex={currentPage}
+                  onAddTodo={onAddTodo}
+                  onToggleTodo={onToggleTodo}
+                  onDeleteTodo={onDeleteTodo}
+                  onEditTodo={onEditTodo}
+                  isPageFull={isPageFull}
+                />
+              </div>
+            )}
+
+            {/* Desktop spiral */}
+            {!isMobile && <SpiralBindingDesktop />}
+
+            {/* Desktop right / Mobile planner tab */}
+            {(!isMobile || activeTab === "planner") && (
+              <div
+                className={`notebook-page right-page ${isMobile ? "mobile-single-page" : ""}`}
+              >
+                <PlannerPage pageIndex={currentPage} />
+              </div>
+            )}
           </div>
-          <div className="page-stack page-stack-right">
-            <div className="stack-layer s1" />
-            <div className="stack-layer s2" />
-            <div className="stack-layer s3" />
-          </div>
+
+          {/* Desktop page stacks */}
+          {!isMobile && (
+            <div className="page-stack page-stack-right">
+              <div className="stack-layer s1" />
+              <div className="stack-layer s2" />
+              <div className="stack-layer s3" />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -464,3 +464,186 @@
     gap: 6px;
   }
 }
+
+/* ════════════════════════════════════════════════
+   MOBILE — Top-spiral portrait notebook
+════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .notebook-outer {
+    gap: 6px;
+    padding: 8px 10px 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Page nav */
+  .page-indicator {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .page-nav-btn {
+    font-size: 0.78rem;
+    padding: 4px 11px;
+  }
+  .page-number-badge {
+    font-size: 0.7rem;
+    padding: 2px 10px;
+  }
+
+  /* Desktop elements off */
+  .page-stack {
+    display: none !important;
+  }
+
+  /* Flip animation vertical */
+  .notebook-flip-scene.flipping-next {
+    animation: flip-up 0.55s ease-in-out;
+  }
+  .notebook-flip-scene.flipping-prev {
+    animation: flip-down 0.55s ease-in-out;
+  }
+  @keyframes flip-up {
+    0% {
+      transform: rotateX(0deg) scale(1);
+    }
+    40% {
+      transform: rotateX(-85deg) scale(0.95);
+    }
+    100% {
+      transform: rotateX(0deg) scale(1);
+    }
+  }
+  @keyframes flip-down {
+    0% {
+      transform: rotateX(0deg) scale(1);
+    }
+    40% {
+      transform: rotateX(85deg) scale(0.95);
+    }
+    100% {
+      transform: rotateX(0deg) scale(1);
+    }
+  }
+
+  /* Wrapper */
+  .notebook-wrapper {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  /* Notebook box */
+  .notebook {
+    flex-direction: column;
+    min-height: unset;
+    width: 100%;
+    max-width: 430px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 8px 28px rgba(60, 40, 10, 0.4);
+  }
+
+  /* Top spiral */
+  .spiral-top {
+    display: flex !important;
+    width: 100%;
+    height: 44px;
+    order: -1;
+    position: relative;
+    overflow: hidden;
+  }
+  .spine-bar-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 14px;
+    background: linear-gradient(
+      180deg,
+      #1a1a1a 0%,
+      #3a3a3a 35%,
+      #454545 50%,
+      #3a3a3a 65%,
+      #181818 100%
+    );
+  }
+  .spiral-svg-top {
+    width: 100%;
+    height: 44px;
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Single page full width */
+  .mobile-single-page {
+    width: 100% !important;
+    min-height: 520px;
+    border-radius: 0 0 10px 10px !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-top: none !important;
+    background-image:
+      linear-gradient(
+        90deg,
+        transparent 36px,
+        #f0b8b0 36px,
+        #f0b8b0 37.5px,
+        transparent 37.5px
+      ),
+      linear-gradient(
+        transparent calc(2rem - 1.5px),
+        #c5daea calc(2rem - 1.5px),
+        #c5daea 2rem,
+        transparent 2rem
+      ) !important;
+    background-size:
+      100% 100%,
+      100% 2rem !important;
+  }
+
+  /* Topbar */
+  .notebook-topbar {
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 6px 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .topbar-note {
+    display: none;
+  }
+  .topbar-left {
+    gap: 5px;
+  }
+
+  /* Tabs */
+  .mobile-tabs {
+    display: flex;
+    width: 100%;
+    max-width: 430px;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -2px 8px rgba(60, 40, 10, 0.15);
+  }
+  .mobile-tab {
+    flex: 1;
+    padding: 9px 0;
+    font-family: "Caveat", cursive;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255, 252, 246, 0.7);
+    color: #8aaabb;
+    letter-spacing: 0.3px;
+  }
+  .mobile-tab.active {
+    background: #fefcf6;
+    color: #1a4a7a;
+    box-shadow: inset 0 -3px 0 #2a6496;
+  }
+}
