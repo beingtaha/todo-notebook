@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  font-family: "Patrick Hand", cursive;
+  background-color: #c8b89a;
+  background-image:
+    repeating-linear-gradient(
+      88deg,
+      transparent,
+      transparent 80px,
+      rgba(150, 110, 60, 0.06) 80px,
+      rgba(150, 110, 60, 0.06) 81px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 40px,
+      rgba(140, 100, 50, 0.04) 40px,
+      rgba(140, 100, 50, 0.04) 41px
+    ),
+    linear-gradient(
+      150deg,
+      #d8c8aa 0%,
+      #c4aa80 25%,
+      #cdb990 50%,
+      #c2aa7e 75%,
+      #cabb90 100%
+    );
+  background-attachment: fixed;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1.5rem 4rem;
+  position: relative;
+}

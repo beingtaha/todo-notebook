@@ -1,0 +1,301 @@
+/* ── Cover scene ─────────────────────────────── */
+.cover-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+/* ── Closed book ─────────────────────────────── */
+.book-closed {
+  position: relative;
+  width: 380px;
+  height: 520px;
+  filter: drop-shadow(0 30px 60px rgba(30, 20, 5, 0.6))
+    drop-shadow(0 8px 20px rgba(30, 20, 5, 0.4));
+}
+
+/* Back cover */
+.book-back {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 380px;
+  height: 520px;
+  background: linear-gradient(160deg, #1a3060 0%, #0e2045 100%);
+  border-radius: 4px 10px 10px 4px;
+  z-index: 0;
+}
+
+/* Pages stack visible on right edge */
+.book-pages-stack {
+  position: absolute;
+  top: 4px;
+  right: -6px;
+  width: 18px;
+  height: 514px;
+  background: repeating-linear-gradient(
+    180deg,
+    #f8f4ee 0px,
+    #f8f4ee 2px,
+    #e8e0d4 2px,
+    #e8e0d4 3px
+  );
+  border-radius: 0 3px 3px 0;
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Front cover */
+.book-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 520px;
+  background: linear-gradient(
+    145deg,
+    #1e3a70 0%,
+    #162d5a 40%,
+    #1a3468 70%,
+    #0e2248 100%
+  );
+  border-radius: 4px 10px 10px 4px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 28px;
+  overflow: hidden;
+  cursor: default;
+}
+
+/* Subtle texture overlay */
+.cover-texture {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(255, 255, 255, 0.015) 40px,
+    rgba(255, 255, 255, 0.015) 41px
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Corner decorations */
+.cover-corner-tl,
+.cover-corner-br {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-color: rgba(255, 255, 255, 0.15);
+  border-style: solid;
+  pointer-events: none;
+}
+.cover-corner-tl {
+  top: 16px;
+  left: 16px;
+  border-width: 2px 0 0 2px;
+  border-radius: 4px 0 0 0;
+}
+.cover-corner-br {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 4px 0;
+}
+
+/* Top badge */
+.cover-top-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+.cover-arch {
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+.cover-internship {
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+/* Center */
+.cover-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.cover-notebook-icon {
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+.cover-name {
+  font-family: "Caveat", cursive;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  margin: 0;
+  line-height: 1.1;
+}
+.cover-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  border-radius: 2px;
+}
+.cover-title {
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 0;
+}
+.cover-id-badge {
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 3px 12px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* Bottom */
+.cover-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.cover-github {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.8rem;
+  transition: color 0.2s;
+}
+.cover-github:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Open button */
+.cover-open-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-family: "Caveat", cursive;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 7px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.cover-open-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Spine */
+.book-spine {
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 22px;
+  height: 520px;
+  background: linear-gradient(90deg, #0a1830 0%, #1a3060 50%, #0e2045 100%);
+  border-radius: 4px 0 0 4px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.4);
+}
+.spine-text {
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.35);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+/* ── MOBILE ─────────────────────────────────── */
+@media (max-width: 600px) {
+  .cover-scene {
+    min-height: 70vh;
+    padding: 16px;
+  }
+
+  .book-closed {
+    width: 280px;
+    height: 390px;
+  }
+  .book-back {
+    width: 280px;
+    height: 390px;
+    top: 5px;
+    left: 5px;
+  }
+  .book-pages-stack {
+    height: 382px;
+  }
+  .book-front {
+    width: 280px;
+    height: 390px;
+    padding: 22px 20px;
+  }
+  .book-spine {
+    height: 390px;
+    left: -18px;
+    width: 18px;
+  }
+
+  .cover-name {
+    font-size: 2rem;
+  }
+  .cover-title {
+    font-size: 0.85rem;
+  }
+  .cover-open-btn {
+    font-size: 0.9rem;
+    padding: 6px 14px;
+  }
+  .cover-arch {
+    font-size: 0.65rem;
+  }
+}
